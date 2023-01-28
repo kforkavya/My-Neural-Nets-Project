@@ -107,7 +107,7 @@ def forward_propg(X, parameters):
     a1 = relu(z1)
     z2 = np.dot(a1, W2) + b2
     global logits
-    logits=softmax(z2)
+    logits=z2
     cache = {0: z1, 1: a1, 2: z2, 3: logits}
     return logits, cache
 def backward_propg(parameters, X, y, cache, learning_rate):
@@ -151,9 +151,9 @@ def cost_func(parameters, X, y):
     """
     m = X.shape[0]
     logits2=softmax(logits)
-    loss = -(1/m) * np.sum(y * np.log(logits2) + (1-y) * np.log(1-logits2))
+    loss = -(1/m) * np.sum(y * np.log(logits2) + (10-y) * np.log(1-logits2))
     return loss
-def train(X, y, hidden_nodes, epochs=20, lr=1e-5):
+def train(X, y, hidden_nodes, epochs=20, lr=1e-3):
     """
     hidden_nodes: no. of nodes in hidden layer
     should return the updated optimize weights.
