@@ -119,12 +119,12 @@ def backward_propg(parameters, X, y, cache, learning_rate):
     dz2 = logits/m
     for i in range(m):
         dz2[i][y[i]]-=1/m
-    dw2 = (1/m) * np.dot(a1.T, dz2)
+    dw2 = np.dot(a1.T, dz2)
     db2 = (1/m) * np.sum(dz2, axis=0, keepdims=True)
     
     da1 = np.dot(dz2, W2.T)
     dz1 = np.multiply(da1, np.int64(a1 > 0))
-    dw1 = (1/m) * np.dot(X.T, dz1)
+    dw1 = np.dot(X.T, dz1)
     db1 = (1/m) * np.sum(dz1, axis=0, keepdims=True)
     
     # update parameters
@@ -185,7 +185,7 @@ def predict(X, updated_weights):
     
     # get the index of the highest probability for each sample
     predictions = np.argmax(probabilities, axis=1)
-    
+    print(predictions)
     return predictions
 def accuracy(predictions, y):
     """
