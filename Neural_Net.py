@@ -120,13 +120,11 @@ def backward_propg(parameters, X, y, cache, learning_rate):
     for i in range(m):
         dz2[i][y[i]]-=1/m
     dw2 = np.dot(a1.T, dz2)
-    db2 = (1/m) * np.sum(dz2, axis=0, keepdims=True)
-    
+    db2 = np.sum(dz2, axis=0, keepdims=True)
     da1 = np.dot(dz2, W2.T)
     dz1 = np.multiply(da1, np.int64(a1 > 0))
     dw1 = np.dot(X.T, dz1)
-    db1 = (1/m) * np.sum(dz1, axis=0, keepdims=True)
-    
+    db1 = np.sum(dz1, axis=0, keepdims=True)
     # update parameters
     parameters[0] = parameters[0] - learning_rate * dw1
     parameters[1] = parameters[1] - learning_rate * db1
@@ -147,7 +145,7 @@ def cost_func(logits, X, y):
     for i in range(m):
         loss -= (np.log(logits2[i][y[i]]))
     return loss/m
-def train(X, y, hidden_nodes, epochs=200, lr=1):
+def train(X, y, hidden_nodes, epochs=10, lr=1):
     """
     hidden_nodes: no. of nodes in hidden layer
     should return the updated optimize weights.
@@ -161,11 +159,8 @@ def train(X, y, hidden_nodes, epochs=200, lr=1):
         logits = forward_propg(X, parameters)[0]
         cache = forward_propg(X, parameters)[1]
         
-        # calculate cost
-        
-        
         # print cost every 100 iterations
-        if i % 10 == 0:
+        if i % 1 == 0:
             cost = cost_func(logits, X, y)
             print("Cost at iteration {}: {}".format(i, cost))
         
